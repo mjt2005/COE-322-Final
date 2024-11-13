@@ -1,14 +1,19 @@
 #include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+using std::cout;
+using std::cin;
 
 using namespace std;
-
+using std::string;
 /* 
 This file is in charge of creating the voter. We are using a basic algorithm to assign a
 person to a certain party. We take in a few parameters and follow general trends to find
 their party affiliation
 */
 
-class Voter{
+class Voter {
     // Attributes for this class
     // Race, Gender, Age, Workforce, Income, Education, Geographic settlement
     private:
@@ -26,8 +31,50 @@ class Voter{
          : race(r), gender(g), age(a), workforce(w), income(i), education(e), settlement(s){};
         
         // Uses an algorithm to find affiliation of person
-        void find_affiliation(){
+        void find_affiliation() {
+		int dem = 0;
+		int gop = 0;
+		// used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
+        if (race == "Asian") { 
+            srand(time(NULL));
+            int number = rand() % 100 + 1;
+            if (number <= 53) {dem++;}
+            else {gop++;} 
+            }
+        else if (race == "Black") {
+            srand(time(NULL));
+            int number = rand() % 100 + 1;
+            if (number <= 83) {dem++;}
+            else {gop++;} 
+            }
+
+        else if (race == "Hispanic") {
+            srand(time(NULL));
+            int number = rand() % 100 + 1;
+            if (number <= 61) {dem++;}
+            else {gop++;}
+        }
+        else if (race == "White") {
+            srand(time(NULL));
+            int number = rand() % 100 + 1;
+            if (number <= 41) {dem++;}
+            else {gop++;}
 
         };
+        
+        if (gender == "Male") {
+            srand(time(NULL));
+            int number = rand() % 100 + 1;
+            if (number <= 46) {dem++;}
+            else {gop++;}
+        }
+        else {
+            srand(time(NULL));
+            int number = rand() % 100 + 1;
+            if (number <= 51) {dem++;}
+            else {gop++;}
+        }
+        }
 
-};
+
+;};
