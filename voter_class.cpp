@@ -20,61 +20,117 @@ class Voter {
         string race; // Will be either Asian, Black, White, Hispanic
         string gender; // Will be just male or female
         int age; // Age in years, values range from 18-80
-        char workforce; // Will be 'B' for blue collar and 'W' for white collar
-        double income; // Annual salary of person
         int education; // Values ranging from 0-2 inclusive, 0 = no college, 1 = bachelors, 2 = graduate
-        string settlement; // 3 possibilities: Rural, Suburban, Urban
-        char affiliation; // 2 possiblities: D = democrat, R = republican, will be calculated
+        string affiliation; // 2 possiblities: D = democrat, R = republican, will be calculated
     public:
         // Created constructor using memeber initializer list for efficiency
-        Voter(string r, string g, int a, char w, double i, int e, string s)
-         : race(r), gender(g), age(a), workforce(w), income(i), education(e), settlement(s){};
+        Voter(string r, string g, int a, int e)
+         : race(r), gender(g), age(a), education(e){};
         
         // Uses an algorithm to find affiliation of person
         void find_affiliation() {
-		int dem = 0;
-		int gop = 0;
-		// used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
-        if (race == "Asian") { 
-            srand(time(NULL));
-            int number = rand() % 100 + 1;
-            if (number <= 53) {dem++;}
-            else {gop++;} 
+		    int dem = 0;
+		    int gop = 0;
+		
+            // used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
+            if (race == "Asian") { 
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 53) {dem++;} // 53% of asians vote dem
+                else {gop++;} 
+                }
+            else if (race == "Black") {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 83) {dem++;}
+                else {gop++;} 
+                }
+
+            else if (race == "Hispanic") {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 61) {dem++;}
+                else {gop++;}
             }
-        else if (race == "Black") {
-            srand(time(NULL));
-            int number = rand() % 100 + 1;
-            if (number <= 83) {dem++;}
-            else {gop++;} 
+            else if (race == "White") {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 41) {dem++;}
+                else {gop++;}
+
+            };
+            
+            if (gender == "Male") {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 46) {dem++;}
+                else {gop++;}
             }
+            else {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 51) {dem++;}
+                else {gop++;}
+            }
+            
+            if (age < 30) {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 65) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            else if ((age > 30) & (age < 50)) {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 52.5) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            else if ((age > 50) & (age < 60)) {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            else if (age > 60) {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 44.5) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            if (education == 0) {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            else if (education == 1){
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number >= 42) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            else if (education == 2) {
+                srand(time(NULL));
+                int number = rand() % 100 + 1;
+                if (number <= 61) {dem++;} // 65% of people 18-30 vote dem
+                else {gop++;}
+            }
+            
+            cout << dem << endl;
+            cout << gop << endl;
 
-        else if (race == "Hispanic") {
-            srand(time(NULL));
-            int number = rand() % 100 + 1;
-            if (number <= 61) {dem++;}
-            else {gop++;}
-        }
-        else if (race == "White") {
-            srand(time(NULL));
-            int number = rand() % 100 + 1;
-            if (number <= 41) {dem++;}
-            else {gop++;}
+            if (dem > gop) {affiliation = "D";}
+            else {affiliation = "R";};
 
-        };
-        
-        if (gender == "Male") {
-            srand(time(NULL));
-            int number = rand() % 100 + 1;
-            if (number <= 46) {dem++;}
-            else {gop++;}
-        }
-        else {
-            srand(time(NULL));
-            int number = rand() % 100 + 1;
-            if (number <= 51) {dem++;}
-            else {gop++;}
-        }
-        }
+            };
+
+        auto get_aff() {return affiliation;} 
+            };
 
 
-;};
+int main() {
+    Voter voter1("Asian", "Male", 45, 1);
+    voter1.find_affiliation();
+    cout << voter1.get_aff() << endl;
+    return 0; // this works
+}
