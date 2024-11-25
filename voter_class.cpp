@@ -42,13 +42,12 @@ class Voter {
         int getEducation() {
         return education;
         }
-        
+
         // Uses an algorithm to find affiliation of person
-        void find_affiliation() {
-            srand(time(NULL));
+        void find_affiliation() {            
 		    int dem = 0;
 		    int gop = 0;
-
+            //srand is used in the main so don't need it here
             // used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
             if (race == "Asian") { 
                 
