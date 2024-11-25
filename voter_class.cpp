@@ -47,7 +47,7 @@ class Voter {
         void find_affiliation() {            
 		    int dem = 0;
 		    int gop = 0;
-            //srand is used in the main so don't need it here
+            // srand is used in the main so don't need it here
             // used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
             if (race == "Asian") { 
                 
@@ -92,32 +92,32 @@ class Voter {
             }
             else if ((age > 30) & (age < 50)) {
                 int number = rand() % 100 + 1;
-                if (number <= 52.5) {dem++;} // 65% of people 18-30 vote dem
+                if (number <= 52.5) {dem++;} 
                 else {gop++;}
             }
             else if ((age > 50) & (age < 60)) {
                 int number = rand() % 100 + 1;
-                if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
+                if (number <= 45) {dem++;} 
                 else {gop++;}
             }
             else if (age > 60) {
                 int number = rand() % 100 + 1;
-                if (number <= 44.5) {dem++;} // 65% of people 18-30 vote dem
+                if (number <= 44.5) {dem++;} 
                 else {gop++;}
             }
             if (education == 0) {
                 int number = rand() % 100 + 1;
-                if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
+                if (number <= 45) {dem++;} 
                 else {gop++;}
             }
             else if (education == 1){
                 int number = rand() % 100 + 1;
-                if (number >= 42) {dem++;} // 65% of people 18-30 vote dem
+                if (number >= 42) {dem++;} 
                 else {gop++;}
             }
             else if (education == 2) {
                 int number = rand() % 100 + 1;
-                if (number <= 61) {dem++;} // 65% of people 18-30 vote dem
+                if (number <= 61) {dem++;} 
                 else {gop++;}
             }
         
