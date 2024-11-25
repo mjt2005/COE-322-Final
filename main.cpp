@@ -52,7 +52,6 @@ int main(){
         age.push_back(random_num);
     }
 
-
     //Loop for education level
     //Values ranging from 0-2 inclusive, 0 = no college, 1 = bachelors, 2 = graduate
     for(int num = 0; num <= voter_num; ++num) {
@@ -65,7 +64,18 @@ int main(){
     for (int index = 0; index < voter_num; ++index){
         our_voters.push_back(Voter(race.at(index), gender.at(index), age.at(index), education.at(index)));
     }
-    
+
+    //Creating vector of Votors and their affiliation
+    vector<string> affiliation;
+    for (int index = 0; index < voter_num; ++index){
+        our_voters.at(index).find_affiliation();
+        affiliation.push_back(our_voters.at(index).get_aff());
+    }
+
+    for (int index = 0; index < voter_num; ++index){
+        cout << affiliation.at(index) << endl;
+    }
+
     //Create a text file containing the data of voters
     ofstream output_file("voters_data.txt");
     if (!output_file) {
@@ -74,7 +84,7 @@ int main(){
     }
 
     //Write headers to the file
-    output_file << "Race, Gender, Age, Education" << endl;
+    output_file << "Race, Gender, Age, Education (0 = no college, 1 = bachelors, 2 = graduate)" << endl;
 
     //Write voter data into the txt file
     for (int index = 0; index < voter_num; ++index) {

@@ -131,10 +131,7 @@ class Voter {
                 if (number <= 61) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
-            
-            cout << dem << endl;
-            cout << gop << endl;
-
+        
             if (dem > gop) {affiliation = "D";}
             else {affiliation = "R";};
 
