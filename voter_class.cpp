@@ -45,31 +45,30 @@ class Voter {
         
         // Uses an algorithm to find affiliation of person
         void find_affiliation() {
+            srand(time(NULL));
 		    int dem = 0;
 		    int gop = 0;
-		
+
             // used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
             if (race == "Asian") { 
-                srand(time(NULL));
+                
                 int number = rand() % 100 + 1;
                 if (number <= 53) {dem++;} // 53% of asians vote dem
                 else {gop++;} 
                 }
             else if (race == "Black") {
-                srand(time(NULL));
+                
                 int number = rand() % 100 + 1;
                 if (number <= 83) {dem++;}
                 else {gop++;} 
                 }
 
             else if (race == "Hispanic") {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 61) {dem++;}
                 else {gop++;}
             }
             else if (race == "White") {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 41) {dem++;}
                 else {gop++;}
@@ -77,56 +76,47 @@ class Voter {
             };
             
             if (gender == "Male") {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 46) {dem++;}
                 else {gop++;}
             }
             else {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 51) {dem++;}
                 else {gop++;}
             }
             
             if (age < 30) {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 65) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if ((age > 30) & (age < 50)) {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 52.5) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if ((age > 50) & (age < 60)) {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if (age > 60) {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 44.5) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             if (education == 0) {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if (education == 1){
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number >= 42) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if (education == 2) {
-                srand(time(NULL));
                 int number = rand() % 100 + 1;
                 if (number <= 61) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
@@ -134,7 +124,6 @@ class Voter {
         
             if (dem > gop) {affiliation = "D";}
             else {affiliation = "R";};
-
             };
 
         auto get_aff() {return affiliation;} 

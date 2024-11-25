@@ -73,7 +73,7 @@ int main(){
     }
 
     for (int index = 0; index < voter_num; ++index){
-        cout << affiliation.at(index) << endl;
+        cout << affiliation.at(index) << ", ";
     }
 
     //Create a text file containing the data of voters
