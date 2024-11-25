@@ -24,8 +24,24 @@ class Voter {
         string affiliation; // 2 possiblities: D = democrat, R = republican, will be calculated
     public:
         // Created constructor using memeber initializer list for efficiency
-        Voter(string r, string g, int a, int e)
-         : race(r), gender(g), age(a), education(e){};
+        Voter(string r, string g, int a, int e) : race(r), gender(g), age(a), education(e){};
+
+        //Information getter
+        string getRace() {
+        return race;
+        }
+
+        string getGender() {
+        return gender;
+        }
+
+        int getAge() {
+        return age;
+        }
+
+        int getEducation() {
+        return education;
+        }
         
         // Uses an algorithm to find affiliation of person
         void find_affiliation() {
@@ -128,9 +144,3 @@ class Voter {
             };
 
 
-int main() {
-    Voter voter1("Asian", "Male", 45, 1);
-    voter1.find_affiliation();
-    cout << voter1.get_aff() << endl;
-    return 0; // this works
-}
