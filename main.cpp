@@ -1,6 +1,7 @@
 #include <vector>
 #include <fstream>
 #include "voter_class.cpp"
+#include <random>
 using namespace std;
 
 int main(){
@@ -10,16 +11,18 @@ int main(){
     vector<int> age;
     vector<int> education;
 
+    std::random_device r;
+    std::default_random_engine generator{ r() };
+
     int voter_num = 0;
     cout << "How many voters do you want to create?" << endl;
     cin >> voter_num;
-    srand(time(NULL));
 
     //Loop for creating race
     //0 = Hispanics, 1 = White, 2 = Black, 3 = Asian
     for (int num = 0; num <= voter_num; ++num) {
         
-        int random_num = rand() % 4;
+        int random_num = generator() % 4;
         if (random_num == 0) {
             race.push_back("Hispanic");
         }
@@ -37,7 +40,7 @@ int main(){
     //Loop for creating gender
     //0 = female, 1 = male
     for (int num = 0; num <= voter_num; ++num) {
-        int random_num = rand() % 2;
+        int random_num = generator() % 2;
         if (random_num == 0) {
             gender.push_back("Female");
         }
@@ -48,14 +51,14 @@ int main(){
 
     //Loop for creating age from 18 to 80
     for (int num = 0; num < voter_num; ++num) {
-        int random_num = rand() % 63 + 18; 
+        int random_num = generator() % 63 + 18; 
         age.push_back(random_num);
     }
 
     //Loop for education level
     //Values ranging from 0-2 inclusive, 0 = no college, 1 = bachelors, 2 = graduate
     for(int num = 0; num <= voter_num; ++num) {
-        int random_num = rand() % 3;
+        int random_num = generator() % 3;
         education.push_back(random_num);
     }
     

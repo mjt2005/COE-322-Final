@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
-#include "voter_class.cpp"
+#include "voter_class.h"
 #include <algorithm>
 using std::tuple;
 using std::make_tuple;
@@ -25,15 +25,19 @@ class District {
             int total_dems = count(leanings.begin(), leanings.end(), "D");
             int total_reps = count(leanings.begin(), leanings.end(), "R");
 
-            if (total_dems > total_reps) {return make_tuple<string,int>("D", total_dems-total_reps);}
-            else {return make_tuple<string,int> ("R", total_reps-total_dems);}
+            if (total_dems > total_reps) {return make_tuple<string,int>("D +", total_dems-total_reps);}
+            else {return make_tuple<string,int> ("R +", total_reps-total_dems);}
         }
 
-        int size() {return voters.size();}
+        int size() {return voters.size();} 
+
+        void print() {
+            for (auto e : voters){
+                cout << e.get_aff() << ",";
+            }
+        }
 
         };
-
-        
         
         
 
