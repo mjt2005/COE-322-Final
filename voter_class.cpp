@@ -123,14 +123,17 @@ class Voter {
             else {affiliation = "R";};
 
             };
-
-        auto get_aff() {return affiliation;} 
+        void set_aff(string aff){
+            affiliation = aff;
+        }
+        string get_aff() {return affiliation;} 
             };
 
 
-int main() {
-    Voter voter1("Asian", "Male", 45, 1);
-    voter1.find_affiliation();
-    cout << voter1.get_aff() << endl;
-    return 0; // this works
-}
+
+// int main() {
+//     Voter voter1("Asian", "Male", 45, 1);
+//     voter1.find_affiliation();
+//     cout << voter1.get_aff() << endl;
+//     return 0; // this works
+// }
