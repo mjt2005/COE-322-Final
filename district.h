@@ -13,8 +13,8 @@ using std::count;
 class District {
     private:
         vector<Voter> voters;
-        int total_dems;
-        int total_gop;
+        float total_dems;
+        float total_gop;
         
 
     public:
@@ -29,12 +29,12 @@ class District {
             };
         
         
-        tuple<string, int> lean() {
-            if (total_dems > total_gop) {return make_tuple<string,int>("D +", total_dems-total_gop);}
-            else {return make_tuple<string,int> ("R +", total_gop-total_dems);}
+        tuple<string, float> lean() {
+            if (total_dems > total_gop) {return make_tuple<string,float>("D +", (total_dems-total_gop) / float(voters.size()));}
+            else {return make_tuple<string,float> ("R +", (total_gop-total_dems) / float(voters.size()));}
         };
 
-        int size() {return voters.size();} 
+        float size() {return voters.size();} 
 
         void print() {
             for (auto e : voters){
