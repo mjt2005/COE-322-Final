@@ -1,11 +1,23 @@
+#include <iostream>
 #include <vector>
+#include <tuple>
+#include "district.h"
+#include <algorithm>
 #include <fstream>
-#include "voter_class.h"
 #include <random>
-using namespace std;
+using std::tuple;
+using std::make_tuple;
+using std::cout;
+using std::vector;
+using std::cin;
+using std::count;
+using std::shuffle;
 
-int main(){
-    //Setting intial vectors for data imput into voter_class
+vector<District> districting(vector<Voter> voters, int total_voters);
+
+
+
+int main() {
     vector<string> race;
     vector<string> gender;
     vector<int> age;
@@ -14,6 +26,7 @@ int main(){
 
     std::random_device r;
     std::default_random_engine generator{ r() };
+    
 
     int voter_num = 0;
     cout << "How many voters do you want to create?" << endl;
@@ -74,7 +87,6 @@ int main(){
             living.push_back("Urban");
         }
         }
-        
 
 
     //Now loop to create a vector of voters
@@ -93,26 +105,61 @@ int main(){
     for (int index = 0; index < voter_num; ++index){
         cout << affiliation.at(index) << ", ";
     }
+    cout << endl;
+    // //Create a text file containing the data of voters
+    // ofstream output_file("voters_data.txt");
+    // if (!output_file) {
+    //     cout << "Error" << endl;
+    //     return 1; 
+    // }
 
-    //Create a text file containing the data of voters
-    ofstream output_file("voters_data.txt");
-    if (!output_file) {
-        cout << "Error" << endl;
-        return 1; 
-    }
+    // //Write headers to the file
+    // output_file << "Race, Gender, Age, Education (0 = no college, 1 = bachelors, 2 = graduate)" << endl;
 
-    //Write headers to the file
-    output_file << "Race, Gender, Age, Education (0 = no college, 1 = bachelors, 2 = graduate), Living" << endl;
+    // //Write voter data into the txt file
+    // for (int index = 0; index < voter_num; ++index) {
+    //     output_file << our_voters[index].getRace() << ", " 
+    //                 << our_voters[index].getGender() << ", "
+    //                 << our_voters[index].getAge() << ", "
+    //                 << our_voters[index].getEducation() << endl;
+    // }
+    // output_file.close();
 
-    //Write voter data into the txt file
-    for (int index = 0; index < voter_num; ++index) {
-        output_file << our_voters[index].getRace() << ", " 
-                    << our_voters[index].getGender() << ", "
-                    << our_voters[index].getAge() << ", "
-                    << our_voters[index].getEducation() << ", "
-                    << our_voters[index].getLiving() << endl;
-    }
-    output_file.close();
+    // going to redistrict the vector of voters based on a naive method
+
+    
+
+    auto districted = districting(our_voters, 100);
+    
+    for (auto e : districted) {
+        e.print();
+        cout << endl;
+        cout << e.getDems() << endl;
+        cout << e.get_Gop() << endl;
+        auto leaning = e.lean();
+        auto [party, win] = leaning;
+        cout << "Leaning : " << party << win << endl;
+        cout << endl;}
+    
+    
+
 
     return 0;
 }
+
+vector<District> districting(vector<Voter> voters, int max_district_pop) {
+    int number_of_districts = voters.size() / max_district_pop;
+    static auto rng = std::default_random_engine {};
+    vector<District> new_districts;
+    for (int i = 0; i < number_of_districts; i++) {
+        District district = vector<Voter>(voters.end() - max_district_pop, voters.end());
+        voters.erase(voters.end() - max_district_pop, voters.end());
+        shuffle(voters.begin(), voters.end(), rng);
+        new_districts.push_back(district);
+            
+        }
+
+    return new_districts;
+
+    };
+
