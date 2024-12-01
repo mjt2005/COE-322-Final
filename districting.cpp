@@ -129,20 +129,40 @@ int main() {
 
     
 
-    auto districted = districting(our_voters, 100);
+    auto districted = districting(our_voters, 10);
     
+    vector<string> winner;
+    float dems = 0;
+    float repubs = 0;
+
     for (auto e : districted) {
         e.print();
         cout << endl;
         cout << e.getDems() << endl;
+        dems = dems + e.getDems();
         cout << e.get_Gop() << endl;
+        repubs = repubs + e.get_Gop();
         auto leaning = e.lean();
         auto [party, win] = leaning;
         cout << "Leaning : " << party << win << endl;
+        winner.push_back(party);
         cout << endl;}
     
-    
+    int dem_districts = count(winner.begin(), winner.end(), "D +");
+    int gop_districts = count(winner.begin(), winner.end(), "R +");
 
+    cout << "Percent Democrat: " << 100 * (dems/voter_num) << endl;
+    cout << "Percent Republican: " << 100 * (repubs/voter_num) << endl;
+    cout << "Total Number of Districts: " << districted.size() << endl;
+    cout << "Total Number of Democrat Districts: " << dem_districts << endl;
+    cout << "Total Number of Republican Districts: " << gop_districts << endl;
+    
+    if (dem_districts > gop_districts){
+        cout << "Majority Party: Democrats" << endl;}
+    else if (dem_districts < gop_districts){
+        cout << "Majority Party: Republicans" << endl;}
+    else {cout << "Tie" << endl;}
+    
 
     return 0;
 }
