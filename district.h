@@ -31,7 +31,8 @@ class District {
         
         tuple<string, float> lean() {
             if (total_dems > total_gop) {return make_tuple<string,float>("D +", (total_dems-total_gop) / float(voters.size()));}
-            else {return make_tuple<string,float> ("R +", (total_gop-total_dems) / float(voters.size()));}
+            else if (total_dems < total_gop) {return make_tuple<string,float> ("R +", (total_gop-total_dems) / float(voters.size()));}
+            else {return make_tuple<string,float>("Tie", 0);}
         };
 
         float size() {return voters.size();} 
@@ -44,6 +45,16 @@ class District {
 
         auto getDems() {return total_dems;};
         auto get_Gop() {return total_gop;};
+
+        string majority() {
+            if (total_dems > total_gop){
+                return "Democrat";
+            }
+            else if (total_dems < total_gop) {
+                return "Republican";
+            }
+            else {return "Tie";}
+        }
 
         };
         
