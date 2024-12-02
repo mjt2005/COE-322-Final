@@ -1,6 +1,9 @@
 #include <vector>
 #include <fstream>
 #include "voter_class.h"
+#include "naive_state_answer.cpp"
+#include "districting.cpp"
+#include "district.h"
 #include <random>
 using namespace std;
 
@@ -75,7 +78,6 @@ int main(){
         }
         }
         
-
 
     //Now loop to create a vector of voters
     vector<Voter> our_voters;

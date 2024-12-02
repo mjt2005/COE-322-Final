@@ -1,5 +1,5 @@
 #include <iostream>
-#include "district_class.h"
+#include "district_class_for_redistricting.h"
 #include <vector>
 
 using namespace std;
