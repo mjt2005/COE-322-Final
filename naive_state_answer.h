@@ -110,48 +110,4 @@ class naive_state_answer{
             }
             return districts;
         }
-
-
-
 };        
-
-int main(){
-    Voter v1("Asian", "Male", 45, 1);
-    Voter v2("Asian", "Male", 45, 1);
-    Voter v3("Asian", "Male", 45, 1);
-    Voter v4("Asian", "Male", 45, 1);
-    Voter v5("Asian", "Male", 45, 1);
-    Voter v6("Asian", "Male", 45, 1);
-    Voter v7("Asian", "Male", 45, 1);
-    Voter v8("Asian", "Male", 45, 1);
-    Voter v9("Asian", "Male", 45, 1);
-    v1.set_aff("D");
-    v2.set_aff("D");
-    v3.set_aff("R");
-    v4.set_aff("R");
-    v5.set_aff("R");
-    v6.set_aff("R");
-    v7.set_aff("D");
-    v8.set_aff("D");
-    v9.set_aff("R");
-    vector<Voter> our_voters;
-    our_voters.push_back(v1);
-    our_voters.push_back(v2);
-    our_voters.push_back(v3);
-    our_voters.push_back(v4);
-    our_voters.push_back(v5);
-    our_voters.push_back(v6);
-    our_voters.push_back(v7);
-    our_voters.push_back(v8);
-    our_voters.push_back(v9);
-    naive_state_answer s1(our_voters,3);
-    vector<int> boundaries;
-    boundaries.push_back(our_voters.size() - 1);
-    vector<int> answer = s1.findDistricts(boundaries);
-    for(int i = 0; i < answer.size(); i++){
-        cout << answer[i] << " ";
-    }
-    return 0;
-    
-
-}
