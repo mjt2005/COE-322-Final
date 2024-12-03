@@ -1,9 +1,6 @@
 #include <vector>
 #include <fstream>
 #include "voter_class.h"
-#include "naive_state_answer.cpp"
-#include "districting.cpp"
-#include "district.h"
 #include <random>
 using namespace std;
 
