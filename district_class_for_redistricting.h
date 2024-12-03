@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "voter_class.cpp"
+#include "voter_class.h"
 #include <algorithm>
 using std::cout;
 using std::vector;
