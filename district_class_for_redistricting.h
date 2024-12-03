@@ -42,8 +42,6 @@ class District {
         int size() {
             return popAffiliation.size();
         }
-
-        
     };
 
         
