@@ -57,39 +57,64 @@ class naive_state_answer{
                 }
             }
         }
+        
         vector<int> findDistricts(vector<int> boundaries) {
             // First part of the if statement evaluates if recursion can't find anywhere to break
             // This would mean that there should not be a break and the rest should be considered as one district
             // Second condition makes sure that you don't go over the number of districts that need to be created
-            if(boundaries[0] < 0 || boundaries.size() >= num_districts - 1){
+            if (boundaries[0] < 0 || boundaries.size() >= num_districts - 1) {
                 return boundaries;
             }
+
             int curr_boundary = boundaries[boundaries.size() - 1] - 1;
             bool valid_Districts_Possible = true;
-            while(curr_boundary > 0 && valid_Districts_Possible){
+
+            while (curr_boundary > 0 && valid_Districts_Possible) {
                 // INSERT AT FRONT (this is the most recent boundary we are checking)
                 boundaries.insert(boundaries.begin(), curr_boundary);
-                // Check if it works
-                boundaries = findDistricts(boundaries);
-                vector<District> possible_ans = form_districts(boundaries);
-                int finalLeaning = 0;
-                for(int i = 0; i < possible_ans.size(); i++){
-                    finalLeaning += possible_ans[i].lean(minority);
+
+                // Check if this boundary ensures every district has at least one voter
+                bool all_districts_valid = true;
+
+                // Check each gap between boundaries
+                for (size_t i = 0; i <= boundaries.size(); i++) {
+                    int start = (i == 0) ? 0 : boundaries[i - 1];
+                    int end = (i == boundaries.size()) ? population : boundaries[i];
+                    if (end - start <= 0) { // Invalid if a district has no voters
+                        all_districts_valid = false;
+                        break;
+                    }
                 }
-                if(finalLeaning < 0){
-                    // Found our districts!!
-                    return boundaries;
+
+                // Check if remaining population is sufficient for remaining districts
+                if (all_districts_valid && (population - curr_boundary >= num_districts - boundaries.size())) {
+                    boundaries = findDistricts(boundaries);
+                    vector<District> possible_ans = form_districts(boundaries);
+                    int finalLeaning = 0;
+
+                    for (int i = 0; i < possible_ans.size(); i++) {
+                        finalLeaning += possible_ans[i].lean(minority);
+                    }
+
+                    if (finalLeaning < 0) {
+                        // Found valid districts
+                        return boundaries;
+                    }
                 }
-                // It didnt work so we have to take out what we tried
+
+                // Revert the boundary adjustment if it didn't work
                 boundaries.erase(boundaries.begin());
+
                 // Since it didn't work lets try again but change curr_bonundary
                 curr_boundary -= 1;
+
                 // Since curr_boundary tells us how many voters are left
                 // We need to make sure we only checking plausible scenarios
                 // Specifically make sure that we have enough voters for districts (Ex. 2 voters 3 districts = impossible)
                 // Number of districts left to create = numDistricts - (len(boundaries) + 1)
                 valid_Districts_Possible = !(curr_boundary < num_districts - (boundaries.size() + 1));
             }
+
             // None of the boundaries worked with the previous boundary setting. Let's change the previous boundary setting.
             boundaries[0] -= 1;
             // Go up the stack frame
@@ -110,79 +135,8 @@ class naive_state_answer{
             }
             return districts;
         }
-};
-int main(){
-    vector<Voter> our_voters;
-
-    Voter v1("Asian", "Male", 45, 1, "Urban");
-    Voter v2("Asian", "Male", 45, 1, "Urban");
-    Voter v3("Asian", "Male", 45, 1, "Urban");
-    Voter v4("Asian", "Male", 45, 1, "Urban");
-    Voter v5("Asian", "Male", 45, 1, "Urban");
-    Voter v6("Asian", "Male", 45, 1, "Urban");
-    Voter v7("Asian", "Male", 45, 1, "Urban");
-    Voter v8("Asian", "Male", 45, 1, "Urban");
-    Voter v9("Asian", "Male", 45, 1, "Urban");
-
-    v1.set_aff("D");
-    v2.set_aff("R");
-    v3.set_aff("R");
-    v4.set_aff("D");
-    v5.set_aff("R");
-    v6.set_aff("R");
-    v7.set_aff("D");
-    v8.set_aff("D");
-    v9.set_aff("D");
-    
-    our_voters.push_back(v1);
-    our_voters.push_back(v2);
-    our_voters.push_back(v3);
-    our_voters.push_back(v4);
-    our_voters.push_back(v5);
-    our_voters.push_back(v6);
-    our_voters.push_back(v7);
-    our_voters.push_back(v8);
-    our_voters.push_back(v9);
-    naive_state_answer s1(our_voters,3);
-    // for(int i = 0; i < num_voters; i++){
-    //     cout << our_voters[i].get_aff() << " ";
-    // }
-    // cout << endl;
-    // cout << "Num voters: " << num_voters << endl;
-    // cout << "Num districts: " << num_districts << endl;
-    vector<int> boundaries;
-    boundaries.push_back(our_voters.size() - 1);
-    vector<int> answer = s1.findDistricts(boundaries);
-    
-    if(answer.size() > 1){
-        answer.insert(answer.begin(),0);
-        answer.push_back(our_voters.size() + 1);
-    }
-    else{
-        cout << "No solution" << endl;
-        return 0;
-    }
-    
-    vector<vector<string> > districts;
-    
-    for(int i = 0; i < answer.size() - 1; i++){
-        int begin = answer[i];
-        int end = answer[i+1];
-        vector<string> district(s1.affiliation.begin() + begin, s1.affiliation.begin() + end);
-        districts.push_back(district);
-    }
-    for(int i = 0; i < districts.size(); i++){
-        cout << "[";
-        for(int j = 0; j < districts[i].size(); j++){
-            cout << " " << districts[i][j] << " ";
+        string get_minority(){
+            return minority;
         }
-        cout << "]" << endl;
-    }
-    return 0;
-    
-    
-
-
-}
-
+};
 
