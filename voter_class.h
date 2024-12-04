@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <random>
-#include <string>
 using std::cout;
 using std::cin;
 using std::string;
@@ -13,6 +12,8 @@ This file is in charge of creating the voter. We are using a basic algorithm to 
 person to a certain party. We take in a few parameters and follow general trends to find
 their party affiliation
 */
+
+#pragma once 
 
 class Voter {
     // Attributes for this class
@@ -30,19 +31,19 @@ class Voter {
 
         //Information getter
         string getRace() {
-        return race;
+            return race;
         }
 
         string getGender() {
-        return gender;
+            return gender;
         }
 
         int getAge() {
-        return age;
+            return age;
         }
 
         int getEducation() {
-        return education;
+            return education;
         }
 
         string getLiving() {
