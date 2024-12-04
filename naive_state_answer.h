@@ -13,11 +13,11 @@ class naive_state_answer{
         string minority;
         vector<int> affiliation_converted;
         vector<int> prefix_sum;
-        vector<string> affiliation;
+        
 
 
     public:
-        
+        vector<string> affiliation;
         naive_state_answer(vector<Voter> voters, int numdis) : population(voters.size()), num_districts(numdis){
             for(int i = 0; i < population; i++){
                 affiliation.push_back(voters.at(i).get_aff());
@@ -110,4 +110,79 @@ class naive_state_answer{
             }
             return districts;
         }
-};        
+};
+int main(){
+    vector<Voter> our_voters;
+
+    Voter v1("Asian", "Male", 45, 1, "Urban");
+    Voter v2("Asian", "Male", 45, 1, "Urban");
+    Voter v3("Asian", "Male", 45, 1, "Urban");
+    Voter v4("Asian", "Male", 45, 1, "Urban");
+    Voter v5("Asian", "Male", 45, 1, "Urban");
+    Voter v6("Asian", "Male", 45, 1, "Urban");
+    Voter v7("Asian", "Male", 45, 1, "Urban");
+    Voter v8("Asian", "Male", 45, 1, "Urban");
+    Voter v9("Asian", "Male", 45, 1, "Urban");
+
+    v1.set_aff("D");
+    v2.set_aff("R");
+    v3.set_aff("R");
+    v4.set_aff("D");
+    v5.set_aff("R");
+    v6.set_aff("R");
+    v7.set_aff("D");
+    v8.set_aff("D");
+    v9.set_aff("D");
+    
+    our_voters.push_back(v1);
+    our_voters.push_back(v2);
+    our_voters.push_back(v3);
+    our_voters.push_back(v4);
+    our_voters.push_back(v5);
+    our_voters.push_back(v6);
+    our_voters.push_back(v7);
+    our_voters.push_back(v8);
+    our_voters.push_back(v9);
+    naive_state_answer s1(our_voters,3);
+    // for(int i = 0; i < num_voters; i++){
+    //     cout << our_voters[i].get_aff() << " ";
+    // }
+    // cout << endl;
+    // cout << "Num voters: " << num_voters << endl;
+    // cout << "Num districts: " << num_districts << endl;
+    vector<int> boundaries;
+    boundaries.push_back(our_voters.size() - 1);
+    vector<int> answer = s1.findDistricts(boundaries);
+    
+    if(answer.size() > 1){
+        answer.insert(answer.begin(),0);
+        answer.push_back(our_voters.size() + 1);
+    }
+    else{
+        cout << "No solution" << endl;
+        return 0;
+    }
+    
+    vector<vector<string> > districts;
+    
+    for(int i = 0; i < answer.size() - 1; i++){
+        int begin = answer[i];
+        int end = answer[i+1];
+        vector<string> district(s1.affiliation.begin() + begin, s1.affiliation.begin() + end);
+        districts.push_back(district);
+    }
+    for(int i = 0; i < districts.size(); i++){
+        cout << "[";
+        for(int j = 0; j < districts[i].size(); j++){
+            cout << " " << districts[i][j] << " ";
+        }
+        cout << "]" << endl;
+    }
+    return 0;
+    
+    
+
+
+}
+
+
