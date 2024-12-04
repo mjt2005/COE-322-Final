@@ -15,8 +15,6 @@ using std::shuffle;
 
 vector<District> districting(vector<Voter> voters, int total_voters);
 
-
-
 int main() {
     vector<string> race;
     vector<string> gender;

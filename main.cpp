@@ -1,6 +1,6 @@
 #include <vector>
 #include <fstream>
-#include "voter_class.h"
+#include "naive_state_answer.h"
 #include <random>
 using namespace std;
 
@@ -76,12 +76,12 @@ int main(){
         }
         
 
-
     //Now loop to create a vector of voters
     vector<Voter> our_voters;
     for (int index = 0; index < voter_num; ++index){
         our_voters.push_back(Voter(race.at(index), gender.at(index), age.at(index), education.at(index), living.at(index)));
     }
+    
 
     //Creating vector of Votors and their affiliation
     vector<string> affiliation;
@@ -89,10 +89,11 @@ int main(){
         our_voters.at(index).find_affiliation();
         affiliation.push_back(our_voters.at(index).get_aff());
     }
-
-    for (int index = 0; index < voter_num; ++index){
-        cout << affiliation.at(index) << ", ";
+    
+    for(int i = 0; i < affiliation.size(); i++){
+        cout << affiliation[i] << " ";
     }
+    cout << endl;
 
     //Create a text file containing the data of voters
     ofstream output_file("voters_data.txt");
@@ -114,5 +115,35 @@ int main(){
     }
     output_file.close();
 
+    
+    vector<int> boundaries;
+    naive_state_answer s1(our_voters,10);
+    cout << "Minority is " << s1.get_minority() << endl;
+    boundaries.push_back(our_voters.size() - 1);
+    vector<int> answer = s1.findDistricts(boundaries);
+    
+    if(answer.size() > 1){
+        answer.insert(answer.begin(),0);
+        answer.push_back(our_voters.size() + 1);
+    }
+    else{
+        cout << "No solution" << endl;
+        return 0;
+    }
+    
+    vector<vector<string> > districts;
+    for(int i = 0; i < answer.size() - 1; i++){
+        int begin = answer[i];
+        int end = answer[i+1];
+        vector<string> district(s1.affiliation.begin() + begin, s1.affiliation.begin() + end);
+        districts.push_back(district);
+    }
+    for(int i = 0; i < districts.size(); i++){
+        cout << "[";
+        for(int j = 0; j < districts[i].size(); j++){
+            cout << " " << districts[i][j] << " ";
+        }
+        cout << "]" << endl;
+    }
     return 0;
 }
