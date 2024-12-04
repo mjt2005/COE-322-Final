@@ -1,13 +1,13 @@
- #include <iostream>
+#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <ctime>
 #include <random>
+#include <string>
 using std::cout;
 using std::cin;
-
-using namespace std;
 using std::string;
+using std::to_string;
 /* 
 This file is in charge of creating the voter. We are using a basic algorithm to assign a
 person to a certain party. We take in a few parameters and follow general trends to find
@@ -55,79 +55,81 @@ class Voter {
             static std::random_device r;
             std::uniform_int_distribution<int> distribution(1,100);
 
-            
 		    int dem = 0;
 		    int gop = 0;
-            int number = distribution(r);
+            int number_race = distribution(r);
+            int number_gender = distribution(r);
+            int number_age = distribution(r);
+            int number_education = distribution(r);
+            int number_living = distribution(r);
 
             // used Pew Research Data to find what party affiliation based on race -> lead to probabilities for voter's party
             if (race == "Asian") { 
-                if (number <= 53) {dem++;} // 53% of asians vote dem
+                if (number_race <= 53) {dem++;} // 53% of asians vote dem
                 else {gop++;} 
                 }
             else if (race == "Black") {
-                if (number <= 83) {dem++;}
+                if (number_race <= 83) {dem++;}
                 else {gop++;} 
                 }
 
             else if (race == "Hispanic") {
-              
-                if (number <= 61) {dem++;}
+                if (number_race <= 61) {dem++;}
                 else {gop++;}
             }
             else if (race == "White") {
-                if (number <= 41) {dem++;}
+                if (number_race <= 41) {dem++;}
                 else {gop++;}
 
             };
             
             if (gender == "Male") {
-                if (number <= 46) {dem++;}
+                if (number_gender <= 46) {dem++;}
                 else {gop++;}
             }
             else {
-                if (number <= 51) {dem++;}
+                if (number_gender <= 51) {dem++;}
                 else {gop++;}
             }
             
             if (age < 30) {
-                if (number <= 65) {dem++;} // 65% of people 18-30 vote dem
+                if (number_age <= 65) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
-            else if ((age > 30) & (age < 50)) {
-                if (number <= 52.5) {dem++;} // 65% of people 18-30 vote dem
+            else if ((age >= 30) && (age < 50)) {
+                if (number_age <= 52.5) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
-            else if ((age > 50) & (age < 60)) {
-                if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
+            else if ((age >= 50) && (age < 60)) {
+                if (number_age <= 45) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
-            else if (age > 60) {
-                if (number <= 44.5) {dem++;} // 65% of people 18-30 vote dem
+            else if (age >= 60) {
+                if (number_age <= 44.5) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             if (education == 0) {
-                if (number <= 45) {dem++;} // 65% of people 18-30 vote dem
+                if (number_education <= 45) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if (education == 1){
-                if (number >= 42) {dem++;} // 65% of people 18-30 vote dem
+                if (number_education <= 55) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             else if (education == 2) {
-                if (number <= 61) {dem++;} // 65% of people 18-30 vote dem
+                if (number_education <= 61) {dem++;} // 65% of people 18-30 vote dem
                 else {gop++;}
             }
             if (living == "Rural"){
-                if (number >= 60) {dem++;}
+                if (number_living >= 60) {dem++;}
                 else {gop++;}
             }
             else if (living == "Suburban") {
-                if (number <= 47) {dem++;}
+                if (number_living <= 47) {dem++;}
                 else {gop++;}
             }
             else if (living == "Urban"){
-                if (number <= 60) {dem++;}
+                if (number_living <= 60) {dem++;}
                 else {gop++;}
             }
             if (dem > gop) {affiliation = "D";}
@@ -136,6 +138,14 @@ class Voter {
 
         auto get_aff() {return affiliation;} 
             
-            };
+           
+           
+           
+           
+    string get_key() {
+        return race + "_" + to_string(education) + "_" + living; // for grouping voters with common attributes together
+    }   
+    
+    };
 
 

@@ -9,12 +9,13 @@ using std::cout;
 using std::vector;
 using std::cin;
 using std::count;
+using std::endl;
 
 class District {
     private:
         vector<Voter> voters;
-        float total_dems;
-        float total_gop;
+        float total_dems = 0;
+        float total_gop = 0;
         
 
     public:
@@ -23,10 +24,10 @@ class District {
                 vector<string> leanings;
                 for (auto e: voters) {
                     string party = e.get_aff();
-                    leanings.push_back(party);
-                    total_dems = count(leanings.begin(), leanings.end(), "D");
-                    total_gop = count(leanings.begin(), leanings.end(), "R");};
+                    if (party == "D") {total_dems++;}
+                    else if (party == "R") {total_gop++;}
             };
+        }
         
         
         tuple<string, float> lean() {
@@ -39,6 +40,7 @@ class District {
 
         void print() {
             for (auto e : voters){
+                cout << e.getRace() << "," << e.getEducation() << "," << e.getLiving() << endl;
                 cout << e.get_aff() << ",";
             }
         };

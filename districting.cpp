@@ -129,14 +129,14 @@ int main() {
 
     
 
-    auto districted = districting(our_voters, 10);
+    auto districted = districting(our_voters, 200);
     
     vector<string> winner;
     float dems = 0;
     float repubs = 0;
 
     for (auto e : districted) {
-        e.print();
+        //e.print();
         cout << endl;
         cout << e.getDems() << endl;
         dems = dems + e.getDems();
@@ -151,6 +151,7 @@ int main() {
     int dem_districts = count(winner.begin(), winner.end(), "D +");
     int gop_districts = count(winner.begin(), winner.end(), "R +");
 
+    cout << "Total voters" << dems + repubs << endl;
     cout << "Percent Democrat: " << 100 * (dems/voter_num) << endl;
     cout << "Percent Republican: " << 100 * (repubs/voter_num) << endl;
     cout << "Total Number of Districts: " << districted.size() << endl;
@@ -170,11 +171,12 @@ int main() {
 vector<District> districting(vector<Voter> voters, int max_district_pop) {
     int number_of_districts = voters.size() / max_district_pop;
     static auto rng = std::default_random_engine {};
+    shuffle(voters.begin(), voters.end(), rng);
     vector<District> new_districts;
     for (int i = 0; i < number_of_districts; i++) {
         District district = vector<Voter>(voters.end() - max_district_pop, voters.end());
         voters.erase(voters.end() - max_district_pop, voters.end());
-        shuffle(voters.begin(), voters.end(), rng);
+        //shuffle(voters.begin(), voters.end(), rng);
         new_districts.push_back(district);
             
         }
