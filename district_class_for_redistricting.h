@@ -18,21 +18,20 @@ class District {
             int total_dems = count(popAffiliation.begin(), popAffiliation.end(), "D");
             int total_reps = count(popAffiliation.begin(), popAffiliation.end(), "R");
 
-
             // Democrats are minority and WIN the district
-            if (total_dems > total_reps && "D" == minority) {
+            if ( (total_dems > total_reps) && ("D" == minority)) {
                 return -1;
             }
             // Republicans are minority and LOSE the district
-            else if(total_dems > total_reps && "R" == minority){
+            else if( (total_dems > total_reps) && ("R" == minority)){
                 return 1;
             }
             // Democrats are minority and LOSE the district
-            else if(total_reps > total_dems && "D" == minority) {
+            else if( (total_reps > total_dems) && ("D" == minority)) {
                 return 1;
             }
             // Republicans are minority and WIN the district
-            else if (total_reps > total_dems && "R" == minority) {
+            else if ( (total_reps > total_dems) && ("R" == minority)) {
                 // This is the case of if the republicans win in this district and "R" = minority
                 return -1;
             }

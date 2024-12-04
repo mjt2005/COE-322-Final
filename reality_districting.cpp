@@ -17,29 +17,19 @@ using std::shuffle;
 using std::endl;
 using std::unordered_map;
 
-State districting(vector<Voter> &voters, int total_voters);
-vector<Voter> combine_like_voters(vector<Voter> &voters);
-
 
 int main() {
-    vector<string> race;
-    vector<string> gender;
-    vector<int> age;
-    vector<int> education;
-    vector<string> living;
-
-    std::random_device r;
-    std::default_random_engine generator{ r() };
     
-
     int voter_num;
+    int max_district_pop;
     cout << "How many voters do you want to create?" << endl;
     cin >> voter_num;
-
+    cout << "What should the population of a district be?" << endl;
+    cin >> max_district_pop;
     auto our_voters = generate_voters(voter_num);
 
-    auto State1 = districting(our_voters, 50);
-
+    auto State1 = unordered_districting(our_voters, max_district_pop);
+    auto State2 = ordered_districting(our_voters, max_district_pop);
 
     for (auto e : State1.get_districts()) {
         e.print();

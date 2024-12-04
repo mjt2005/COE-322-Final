@@ -17,7 +17,6 @@ vector<Voter> generate_voters(int voter_num){
     std::random_device r;
     std::default_random_engine generator{ r() };
     
-    
     //Loop for creating race
     //0 = Hispanics, 1 = White, 2 = Black, 3 = Asian
     for (int num = 0; num <= voter_num; ++num) {
@@ -72,8 +71,7 @@ vector<Voter> generate_voters(int voter_num){
         else if (random_num == 2) {
             living.push_back("Urban");
         }
-        }
-
+    }
 
     //Now loop to create a vector of voters
     vector<Voter> our_voters;
@@ -113,41 +111,42 @@ vector<Voter> generate_voters(int voter_num){
     }
     output_file.close();
 
-
     return our_voters;
 }
 
-State districting(vector<Voter> &voters, int max_district_pop) {
+State ordered_districting(vector<Voter> &voters, int max_district_pop) {
     int number_of_districts = voters.size() / max_district_pop;
     voters = combine_like_voters(voters);
     vector<District> new_districts;
     for (int i = 0; i < number_of_districts; i++) {
         District district = vector<Voter>(voters.end() - max_district_pop, voters.end());
         voters.erase(voters.end() - max_district_pop, voters.end());
-        new_districts.push_back(district);
-            
-        }
-
+        new_districts.push_back(district);}
     return new_districts;
-
     };
-
 
 vector<Voter> combine_like_voters(vector<Voter> &voters) {
    unordered_map<string, vector<Voter>> grouped_voters;
-
    for (auto e: voters){
-    string key = e.get_key();
-    grouped_voters[key].push_back(e);}
-
+        string key = e.get_key();
+        grouped_voters[key].push_back(e);}
    vector<Voter> groupedVotersList;
-    for (auto group : grouped_voters) {
-        groupedVotersList.insert(groupedVotersList.end(), group.second.begin(), group.second.end());
-    };
-   
+        for (auto group : grouped_voters) {
+            groupedVotersList.insert(groupedVotersList.end(), group.second.begin(), group.second.end());};
     return groupedVotersList;
-   
+    }
+
+State unordered_districting(vector<Voter> voters, int max_district_pop) {
+    int number_of_districts = voters.size() / max_district_pop;
+    static auto rng = std::default_random_engine {};
+    shuffle(voters.begin(), voters.end(), rng);
+    vector<District> new_districts;
+    for (int i = 0; i < number_of_districts; i++) {
+        District district = vector<Voter>(voters.end() - max_district_pop, voters.end());
+        voters.erase(voters.end() - max_district_pop, voters.end());
+        new_districts.push_back(district);
+        }
+
+    return new_districts;
 }
-
-
 

@@ -174,9 +174,7 @@ vector<District> districting(vector<Voter> voters, int max_district_pop) {
     for (int i = 0; i < number_of_districts; i++) {
         District district = vector<Voter>(voters.end() - max_district_pop, voters.end());
         voters.erase(voters.end() - max_district_pop, voters.end());
-        //shuffle(voters.begin(), voters.end(), rng);
         new_districts.push_back(district);
-            
         }
 
     return new_districts;
