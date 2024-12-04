@@ -132,10 +132,14 @@ class Voter {
             }
             if (dem > gop) {affiliation = "D";}
             else if (dem < gop) {affiliation = "R";};
-            };
+        };
 
-        auto get_aff() {return affiliation;} 
+        auto get_aff() {return affiliation;}
+        auto set_aff(string a){
+            affiliation = a;
+        }
             
-            };
+};
+        
 
 
