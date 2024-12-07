@@ -82,6 +82,49 @@ int main(){
         cout << "Majority Party: Republicans" << endl;}
     else {cout << "Tie" << endl;}
    
+    
+
+    vector<int> boundaries;
+    naive_state_answer s1(our_voters,10);
+    cout << "Minority is " << s1.get_minority() << endl;
+    boundaries.push_back(our_voters.size() - 1);
+    vector<vector<int> > splits;
+    int answer = s1.solveDistricting(splits);
+
+    if(answer > 0){
+        cout << "There is no solution for the minority to win" << endl;
+    }
+    else{
+        cout << "Best achievable outcome: " << answer << endl;
+        // Print the district boundaries and their composition
+        s1.printDistricts(splits);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     return 0;
     
 }
