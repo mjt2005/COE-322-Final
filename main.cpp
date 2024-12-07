@@ -63,33 +63,19 @@ int main(){
     naive_state_answer s1(our_voters,10);
     cout << "Minority is " << s1.get_minority() << endl;
     boundaries.push_back(our_voters.size() - 1);
-    vector<int> answer = s1.findDistricts(boundaries);
+    vector<vector<int> > splits;
+    int answer = s1.solveDistricting(splits);
+
+    if(answer > 0){
+        cout << "There is no solution for the minority to win" << endl;
+    }
+    cout << "Best achievable outcome: " << answer << endl;
+
+    // Print the district boundaries and their composition
+    s1.printDistricts(splits);
     
-    if(answer.size() > 1){
-        answer.insert(answer.begin(),0);
-        answer.push_back(our_voters.size() + 1);
-    }
-    else{
-        cout << "No solution" << endl;
-        return 0;
-    }
     
-    vector<vector<string> > districts;
-    for(int i = 0; i < answer.size() - 1; i++){
-        int begin = answer[i];
-        int end = answer[i+1];
-        vector<string> district(s1.affiliation.begin() + begin, s1.affiliation.begin() + end);
-        districts.push_back(district);
-    }
-    for(int i = 0; i < districts.size(); i++){
-        cout << "[";
-        for(int j = 0; j < districts[i].size(); j++){
-            cout << " " << districts[i][j] << " ";
-        }
-        cout << "]" << endl;
-    }
     
-}
     
     
     
