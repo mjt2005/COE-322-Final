@@ -117,7 +117,7 @@ int main(){
     else{
         cout << "Best achievable outcome: " << answer << endl;
         // Print the district boundaries and their composition
-        s1.printDistricts(splits);
+        //s1.printDistricts(splits);
     }
 
     return 0;
