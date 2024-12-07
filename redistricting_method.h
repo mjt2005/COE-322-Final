@@ -162,7 +162,7 @@ public:
 int main() {
     // Example input
     vector<string> affiliations = {"D", "D", "R", "R", "R", "R", "D", "D", "R"};
-    int num_districts = 3;
+    int num_districts = 5;
 
     // Create the naive_state_answer object
     naive_state_answer solution(affiliations, num_districts);
