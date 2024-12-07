@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <climits> // For INT_MAX
 #include "voter_class.h"
-
-using namespace std;
+using std::vector;
+using std::endl;
 
 class naive_state_answer {
 private:

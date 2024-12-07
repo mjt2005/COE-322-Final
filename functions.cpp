@@ -86,9 +86,9 @@ vector<Voter> generate_voters(int voter_num){
         affiliation.push_back(our_voters.at(index).get_aff());
     }
 
-    for (int index = 0; index < voter_num; ++index){
-        cout << affiliation.at(index) << ", ";
-    }
+    // for (int index = 0; index < voter_num; ++index){
+    //     cout << affiliation.at(index) << ", ";
+    // }
     cout << endl;
     //Create a text file containing the data of voters
     ofstream output_file("voters_data.csv");
