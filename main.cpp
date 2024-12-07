@@ -69,10 +69,12 @@ int main(){
     if(answer > 0){
         cout << "There is no solution for the minority to win" << endl;
     }
-    cout << "Best achievable outcome: " << answer << endl;
-
-    // Print the district boundaries and their composition
-    s1.printDistricts(splits);
+    else{
+        cout << "Best achievable outcome: " << answer << endl;
+        // Print the district boundaries and their composition
+        s1.printDistricts(splits);
+    }
+    
     
     
     
