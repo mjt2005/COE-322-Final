@@ -31,8 +31,8 @@ class District {
         }
         
         tuple<string, float> lean() {
-            if (total_dems > total_gop) {return make_tuple<string,float>("D +", (total_dems-total_gop) / float(voters.size()));}
-            else if (total_dems < total_gop) {return make_tuple<string,float> ("R +", (total_gop-total_dems) / float(voters.size()));}
+            if (total_dems > total_gop) {return make_tuple<string,float>("D +", 100 * ( (total_dems-total_gop) / float(voters.size()) ));}
+            else if (total_dems < total_gop) {return make_tuple<string,float> ("R +", 100 * ( (total_gop-total_dems) / float(voters.size()) ));}
             else {return make_tuple<string,float>("Tie", 0);}
         };
 
@@ -110,7 +110,7 @@ class District {
             int get_number_of_districts() {
                 return number_of_districts;
             }
+            
+            int get_number_districts(){
+                return number_of_districts;}
             };
-            
-          
-            

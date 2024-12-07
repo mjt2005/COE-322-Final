@@ -5,7 +5,7 @@
 #include "functions.h"
 using std::unordered_map;
 using std::ofstream;
-
+using std::get;
 
 vector<Voter> generate_voters(int voter_num){
     vector<string> race;
@@ -112,7 +112,7 @@ vector<Voter> generate_voters(int voter_num){
     output_file.close();
 
     return our_voters;
-}
+};
 
 State ordered_districting(vector<Voter> &voters, int max_district_pop) {
     int number_of_districts = voters.size() / max_district_pop;
@@ -150,3 +150,20 @@ State unordered_districting(vector<Voter> voters, int max_district_pop) {
     return new_districts;
 }
 
+void write_districts(State s){
+    ofstream output_file("district_data.csv");
+    if (!output_file) {
+        cout << "Error" << endl;
+        throw 1; 
+    }
+    output_file << "District, Size, Democrats, Republicans, Lean" << endl;
+
+    for (int i = 0; i < s.get_number_districts(); i++){
+        output_file << i+1 << ", " 
+                    << s.get_districts()[i].size() << ", "
+                    << s.get_districts()[i].getDems() << ", "
+                    << s.get_districts()[i].get_Gop() << ", "
+                    << get<0>(s.get_districts()[i].lean()) << get<1>(s.get_districts()[i].lean()) << "," << endl;
+    output_file.close();
+    }
+}

@@ -1,120 +1,63 @@
 #include <vector>
 #include <fstream>
-#include "naive_state_answer.h"
+#include "redistricting_method.h"
+#include "functions.h"
 #include <random>
-using namespace std;
+using std::cout;
+using std::cin;
+
 
 int main(){
-    //Setting intial vectors for data imput into voter_class
-    vector<string> race;
-    vector<string> gender;
-    vector<int> age;
-    vector<int> education;
-    vector<string> living;
+    
 
-    std::random_device r;
-    std::default_random_engine generator{ r() };
-
-    int voter_num = 0;
+    // declare variables for user input 
+    int voter_num;
+    int max_district_pop;
     cout << "How many voters do you want to create?" << endl;
+    // accept number of voters to be generated
     cin >> voter_num;
+    cout << "What should the population of a district be?" << endl;
+    // accept number for maximum number of districts
+    cin >> max_district_pop;
+    auto our_voters = generate_voters(voter_num);
 
-    //Loop for creating race
-    //0 = Hispanics, 1 = White, 2 = Black, 3 = Asian
-    for (int num = 0; num <= voter_num; ++num) {
-        
-        int random_num = generator() % 4;
-        if (random_num == 0) {
-            race.push_back("Hispanic");
-        }
-        else if (random_num == 1){
-            race.push_back("White");
-        }
-        else if (random_num == 2){
-            race.push_back("Black");
-        }
-        else if (random_num == 3){
-            race.push_back("Asian");
-        }
-    }
+    auto State1 = unordered_districting(our_voters, max_district_pop);
+    auto State2 = ordered_districting(our_voters, max_district_pop);
 
-    //Loop for creating gender
-    //0 = female, 1 = male
-    for (int num = 0; num <= voter_num; ++num) {
-        int random_num = generator() % 2;
-        if (random_num == 0) {
-            gender.push_back("Female");
-        }
-        else if (random_num == 1){
-            gender.push_back("Male");
-        }
-    }
-
-    //Loop for creating age from 18 to 80
-    for (int num = 0; num < voter_num; ++num) {
-        int random_num = generator() % 63 + 18; 
-        age.push_back(random_num);
-    }
-
-    //Loop for education level
-    //Values ranging from 0-2 inclusive, 0 = no college, 1 = bachelors, 2 = graduate
-    for(int num = 0; num <= voter_num; ++num) {
-        int random_num = generator() % 3;
-        education.push_back(random_num);
-    }
-    
-    //Loop for living situation
-    for (int num = 0; num < voter_num; ++num) {
-        int random_num = generator() % 3;
-        if (random_num == 0) {
-            living.push_back("Rural");}
-        else if (random_num == 1) {
-            living.push_back("Suburban");}
-        else if (random_num == 2) {
-            living.push_back("Urban");
-        }
-        }
-        
-
-    //Now loop to create a vector of voters
-    vector<Voter> our_voters;
-    for (int index = 0; index < voter_num; ++index){
-        our_voters.push_back(Voter(race.at(index), gender.at(index), age.at(index), education.at(index), living.at(index)));
-    }
+    for (auto e : State1.get_districts()) {
+        e.print();
+        cout << endl;
+        cout << e.getDems() << endl;
+        cout << e.get_Gop() << endl;
+        auto leaning = e.lean();
+        auto [party, win] = leaning;
+        cout << "Leaning : " << party << win << endl;
+        cout << endl;}
     
 
-    //Creating vector of Votors and their affiliation
-    vector<string> affiliation;
-    for (int index = 0; index < voter_num; ++index){
-        our_voters.at(index).find_affiliation();
-        affiliation.push_back(our_voters.at(index).get_aff());
-    }
+    cout << "Total number of districts: " << State1.get_number_of_districts() << endl;
+    cout << "Total Voters" << State1.get_total_dems() + State1.get_total_reps() << endl;
+    cout << "Total Number of Democrats: " << State1.get_total_dems() << endl;
+    cout << "Total Number of Republicans: " << State1.get_total_reps() << endl;
+    cout << "Percent Democrat: " << State1.party_percent("D") << endl;
+    cout << "Percent GOP: " << State1.party_percent("R") << endl;
+    cout << "Number of Democrat districts " << State1.number_of_districts_won("D") << endl;
+    cout << "Number of GOP districts " <<  State1.number_of_districts_won("R") << endl;
+
+    if (State1.number_of_districts_won("D") > State1.number_of_districts_won("R")){
+        cout << "Majority Party: Democrats" << endl;}
+    else if (State1.number_of_districts_won("D") < State1.number_of_districts_won("R")){
+        cout << "Majority Party: Republicans" << endl;}
+    else {cout << "Tie" << endl;}
     
-    for(int i = 0; i < affiliation.size(); i++){
-        cout << affiliation[i] << " ";
-    }
-    cout << endl;
-
-    //Create a text file containing the data of voters
-    ofstream output_file("voters_data.txt");
-    if (!output_file) {
-        cout << "Error" << endl;
-        return 1; 
-    }
-
-    //Write headers to the file
-    output_file << "Race, Gender, Age, Education (0 = no college, 1 = bachelors, 2 = graduate), Living" << endl;
-
-    //Write voter data into the txt file
-    for (int index = 0; index < voter_num; ++index) {
-        output_file << our_voters[index].getRace() << ", " 
-                    << our_voters[index].getGender() << ", "
-                    << our_voters[index].getAge() << ", "
-                    << our_voters[index].getEducation() << ", "
-                    << our_voters[index].getLiving() << endl;
-    }
-    output_file.close();
-
+    
+    
+    
+    
+    
+    
+    
+    
     
     vector<int> boundaries;
     naive_state_answer s1(our_voters,10);
@@ -145,5 +88,29 @@ int main(){
         }
         cout << "]" << endl;
     }
+    
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     return 0;
 }
