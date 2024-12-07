@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <climits> // For INT_MAX
+#include "voter_class.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ private:
     vector<int> prefix_sum; // Prefix sum for efficient range sum calculation
     vector<vector<int>> cost; // Cost matrix for all voter ranges
     string minority;
+    string majority;
 
     // Function to convert affiliations to numeric values
     // Takes D and R and converts to 1 and -1 based on who the minority
@@ -49,13 +51,20 @@ private:
 
 public:
     // Constructor to initialize the class with voter affiliations and number of districts
-    naive_state_answer(const vector<string>& affiliations, int num_districts) : num_districts(num_districts) {
+    naive_state_answer(const vector<Voter>& voters, int num_districts) : num_districts(num_districts) {
+        vector<string> affiliations;
+        for(auto i : voters){
+            affiliations.push_back(i.get_aff());
+        }
+
         population = affiliations.size();
         
         // Determine the minority group
         int dems = count(affiliations.begin(), affiliations.end(), "D");
         int repubs = count(affiliations.begin(), affiliations.end(), "R");
         minority = dems > repubs ? "R" : "D";
+        majority = dems > repubs ? "D" : "R";
+        
         
         // Convert affiliations to numeric values (-1 for minority, 1 for majority)
         affiliation_converted = convertAffiliations(affiliations, minority);
@@ -143,7 +152,7 @@ public:
             }
             vector<string> district;
             for (int j = begin; j < end; j++) {
-                district.push_back(affiliation_converted[j] == -1 ? "D" : "R");
+                district.push_back(affiliation_converted[j] == -1 ? minority : majority);
             }
             districts.push_back(district);
         }
@@ -157,15 +166,48 @@ public:
             cout << "]" << endl;
         }
     }
+    string get_minority(){
+        return minority;
+    }
 };
 
 int main() {
+    vector<Voter> our_voters;
+    Voter v1("Asian", "Male", 45, 1, "Rural");
+    Voter v2("Asian", "Male", 45, 1, "Rural");
+    Voter v3("Asian", "Male", 45, 1, "Rural");
+    Voter v4("Asian", "Male", 45, 1, "Rural");
+    Voter v5("Asian", "Male", 45, 1, "Rural");
+    Voter v6("Asian", "Male", 45, 1, "Rural");
+    Voter v7("Asian", "Male", 45, 1, "Rural");
+    Voter v8("Asian", "Male", 45, 1, "Rural");
+    Voter v9("Asian", "Male", 45, 1, "Rural");
+    v1.set_aff("D");
+    v2.set_aff("R");
+    v3.set_aff("R");
+    v4.set_aff("D");
+    v5.set_aff("R");
+    v6.set_aff("R");
+    v7.set_aff("D");
+    v8.set_aff("D");
+    v9.set_aff("D");
+    
+    our_voters.push_back(v1);
+    our_voters.push_back(v2);
+    our_voters.push_back(v3);
+    our_voters.push_back(v4);
+    our_voters.push_back(v5);
+    our_voters.push_back(v6);
+    our_voters.push_back(v7);
+    our_voters.push_back(v8);
+    our_voters.push_back(v9);
     // Example input
-    vector<string> affiliations = {"D", "D", "R", "R", "R", "R", "D", "D", "R"};
-    int num_districts = 5;
+    int num_districts = 4;
 
     // Create the naive_state_answer object
-    naive_state_answer solution(affiliations, num_districts);
+    naive_state_answer solution(our_voters, num_districts);
+
+    cout<<"Minority: " << solution.get_minority() << endl;
 
     // Solve the problem
     vector<vector<int>> splits;
