@@ -36,7 +36,7 @@ int main(){
 
     // loop through districts and export statistics
     for (auto e : random_State.get_districts()) {
-        //e.print();
+        e.print();
         cout << endl;
         //cout << e.getDems() << endl;
         //cout << e.get_Gop() << endl;
@@ -47,7 +47,7 @@ int main(){
     
 
     for (auto u : real_State.get_districts()) {
-        //u.print();
+        u.print();
         //cout << endl;
         //cout << u.getDems() << endl;
         //cout << u.get_Gop() << endl;
