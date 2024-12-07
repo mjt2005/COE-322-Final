@@ -110,7 +110,6 @@ class District {
             int get_number_of_districts() {
                 return number_of_districts;
             }
-            
-            int get_number_districts(){
-                return number_of_districts;}
+        
+
             };

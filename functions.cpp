@@ -158,7 +158,7 @@ void write_districts(State s){
     }
     output_file << "District, Size, Democrats, Republicans, Lean" << endl;
 
-    for (int i = 0; i < s.get_number_districts(); i++){
+    for (int i = 0; i < s.get_number_of_districts(); i++){
         output_file << i+1 << ", " 
                     << s.get_districts()[i].size() << ", "
                     << s.get_districts()[i].getDems() << ", "
