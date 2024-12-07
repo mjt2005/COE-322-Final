@@ -150,8 +150,8 @@ State unordered_districting(vector<Voter> voters, int max_district_pop) {
     return new_districts;
 }
 
-void write_districts(State s){
-    ofstream output_file("district_data.csv");
+void write_districts(State s, string name){
+    ofstream output_file(name + "_" + "district_data.csv");
     if (!output_file) {
         cout << "Error" << endl;
         throw 1; 

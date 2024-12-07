@@ -15,10 +15,18 @@ int main(){
     int max_district_pop;
     cout << "How many voters do you want to create?" << endl;
     // accept number of voters to be generated
+    
     cin >> voter_num;
     cout << "What should the population of a district be?" << endl;
-    // accept number for maximum number of districts
-    cin >> max_district_pop;
+    // accepts input for maximum number of voters in a district until valid input is given (number of voters must be divisible by max voters in a district)
+    bool is_valid = false;
+    while(is_valid == false){
+        cin >> max_district_pop;
+        if ( (voter_num % max_district_pop == 0)  && (max_district_pop > 0) && (max_district_pop < voter_num) ) {
+            is_valid = true;
+        }
+    }
+   
     // save voters
     auto our_voters = generate_voters(voter_num);
 
@@ -28,10 +36,10 @@ int main(){
 
     // loop through districts and export statistics
     for (auto e : random_State.get_districts()) {
-        e.print();
+        //e.print();
         cout << endl;
-        cout << e.getDems() << endl;
-        cout << e.get_Gop() << endl;
+        //cout << e.getDems() << endl;
+        //cout << e.get_Gop() << endl;
         auto leaning = e.lean();
         auto [party, win] = leaning;
         cout << "Leaning : " << party << win << endl;
@@ -39,10 +47,10 @@ int main(){
     
 
     for (auto u : real_State.get_districts()) {
-        u.print();
-        cout << endl;
-        cout << u.getDems() << endl;
-        cout << u.get_Gop() << endl;
+        //u.print();
+        //cout << endl;
+        //cout << u.getDems() << endl;
+        //cout << u.get_Gop() << endl;
         auto leaning = u.lean();
         auto [party, win] = leaning;
         cout << "Leaning : " << party << win << endl;
@@ -51,7 +59,7 @@ int main(){
     // print out statistics
     cout << "---------- UNORDERED STATE STATISTICS ----------" << endl;
     cout << "Total number of districts: " << random_State.get_number_of_districts() << endl;
-    cout << "Total Voters" << random_State.get_total_dems() + random_State.get_total_reps() << endl;
+    cout << "Total Voters: " << random_State.get_total_dems() + random_State.get_total_reps() << endl;
     cout << "Total Number of Democrats: " << random_State.get_total_dems() << endl;
     cout << "Total Number of Republicans: " << random_State.get_total_reps() << endl;
     cout << "Percent Democrat: " << random_State.party_percent("D") << endl;
@@ -64,6 +72,12 @@ int main(){
     else if (random_State.number_of_districts_won("D") < random_State.number_of_districts_won("R")){
         cout << "Majority Party: Republicans" << endl;}
     else {cout << "Tie" << endl;}
+
+    // write data to csv
+    write_districts(random_State, "random_state");
+    write_districts(real_State, "real");
+
+
 
     // print out statistics
     cout << "---------- ORDERED STATE STATISTICS ----------" << endl;
@@ -82,10 +96,10 @@ int main(){
         cout << "Majority Party: Republicans" << endl;}
     else {cout << "Tie" << endl;}
    
-    
+    int num_districts = voter_num / max_district_pop;
 
     vector<int> boundaries;
-    naive_state_answer s1(our_voters,10);
+    naive_state_answer s1(our_voters,num_districts);
     cout << "Minority is " << s1.get_minority() << endl;
     boundaries.push_back(our_voters.size() - 1);
     vector<vector<int> > splits;
@@ -99,32 +113,7 @@ int main(){
         // Print the district boundaries and their composition
         s1.printDistricts(splits);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     return 0;
     
 }
