@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <climits> // For INT_MAX
 #include "voter_class.h"
+#include <fstream>
+#include <tuple>
 using std::vector;
 using std::endl;
 
@@ -94,7 +96,7 @@ public:
             for (int j = 1; j <= num_districts; j++) {
                 // Assume t voters in last district
                 // If that is the case then there are i-t voters in j-1 districts
-                for (int t = 1; t <= i; t++) { // Consider splitting at voter t
+                for (int t = 1; t <= i; t++) { // Consider the last t voters in the last district
                     if (dp[i - t][j - 1] != INT_MAX) { // Checks to make sure valid previous state
                         // this new cost is the cost if t spans the last district
                         // This would be adding the cost at dp[i-t][j-1] to the cost of the last district with t voters
@@ -118,8 +120,15 @@ public:
         return dp[population][num_districts];
     }
 
+
     // Function to reconstruct and print the district boundaries in a good way
     void printDistricts(const vector<vector<int>>& splits) {
+        std::ofstream outputf("Redistricted_districts.csv");
+        if (!outputf) {
+            cout << "Error" << endl;
+            throw 1; 
+        }
+
         vector<int> answer;
         int n = population;
         int k = num_districts;
@@ -160,11 +169,33 @@ public:
         // Print the districts in the requested format
         for (int i = 0; i < districts.size(); i++) {
             cout << "[";
+            outputf << "[";
             for (int j = 0; j < districts[i].size(); j++) {
                 cout << " " << districts[i][j] << " ";
+                outputf << " " << districts[i][j] << " ";
             }
             cout << "]" << endl;
+            outputf << "] " << endl;
+            auto [num_d, num_r] = breakdown_district(districts[i]);
+            outputf << "Number of Democrats in district: " << num_d << endl;
+            outputf << "Number of Republicans in district: " << num_r << endl;
+            if(num_d > num_r){
+                outputf << "Democrats won this district by " << num_d - num_r << " votes" << endl;
+            }
+            else if (num_d == num_r){
+                outputf << "This district resulted in a tie" << endl;
+            }
+            else{
+                outputf << "Republicans won this district by " << num_r - num_d << " votes" << endl;
+            }
+            outputf << endl;
         }
+        outputf.close();
+    }
+    std::tuple<int, int> breakdown_district(vector<string> district){
+        int dems = count(district.begin(), district.end(), "D");
+        int repubs = count(district.begin(), district.end(), "R");
+        return std::make_tuple(dems,repubs);
     }
     string get_minority(){
         return minority;
