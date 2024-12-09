@@ -3,12 +3,17 @@
 #include "redistricting_method.h"
 #include "functions.h"
 #include <random>
+#include <time.h>
 using std::cout;
 using std::cin;
 
 
 int main(){
     
+    clock_t clkStart;
+    clock_t clkFinish;
+
+    clkStart = clock();
 
     // declare variables for user input 
     int voter_num;
@@ -117,8 +122,12 @@ int main(){
     else{
         cout << "Best achievable outcome: " << answer << endl;
         // Print the district boundaries and their composition
-        //s1.printDistricts(splits);
+        s1.printDistricts(splits);
     }
+	
+
+    clkFinish = clock();
+    cout << "Run Time = " << (clkFinish - clkStart) / CLOCKS_PER_SEC << " seconds" << endl;
 
     return 0;
     
