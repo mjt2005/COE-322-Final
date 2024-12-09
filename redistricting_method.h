@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <climits> // For INT_MAX
 #include "voter_class.h"
+#include <numeric>
+#include <string>
+#include <fstream>
+#include <tuple>
 using std::vector;
 using std::endl;
 
@@ -15,6 +19,7 @@ private:
     vector<vector<int>> cost; // Cost matrix for all voter ranges
     string minority;
     string majority;
+    vector<vector<string> > gerrymandered_dis;
 
     // Function to convert affiliations to numeric values
     // Takes D and R and converts to 1 and -1 based on who the minority
@@ -94,7 +99,7 @@ public:
             for (int j = 1; j <= num_districts; j++) {
                 // Assume t voters in last district
                 // If that is the case then there are i-t voters in j-1 districts
-                for (int t = 1; t <= i; t++) { // Consider splitting at voter t
+                for (int t = 1; t <= i; t++) { // Consider the last t voters in the last district
                     if (dp[i - t][j - 1] != INT_MAX) { // Checks to make sure valid previous state
                         // this new cost is the cost if t spans the last district
                         // This would be adding the cost at dp[i-t][j-1] to the cost of the last district with t voters
@@ -118,8 +123,18 @@ public:
         return dp[population][num_districts];
     }
 
+
     // Function to reconstruct and print the district boundaries in a good way
     void printDistricts(const vector<vector<int>>& splits) {
+        int districts_d = 0;
+        int districts_r = 0;
+        std::ofstream outputf("Redistricted_districts.csv");
+        if (!outputf) {
+            cout << "Error" << endl;
+            throw 1; 
+        }
+        outputf << "District , Size, Democrats, Republicans" << endl;
+
         vector<int> answer;
         int n = population;
         int k = num_districts;
@@ -164,8 +179,106 @@ public:
                 cout << " " << districts[i][j] << " ";
             }
             cout << "]" << endl;
+            auto [num_d, num_r] = breakdown_district(districts[i]);
+            
+
+            outputf << i << ", " << districts[i].size() << ", " << num_d <<  ", " << num_r << ", ";
+            outputf << endl;
+            if(num_d > num_r){
+                districts_d += 1;
+            }
+            if(num_r > num_d){
+                districts_r += 1;
+            }
         }
+        cout << "Number of districts won by Democrats: " << districts_d << endl;
+        cout << "Number of districts won by Republicans: " << districts_r << endl;
+        gerrymandered_dis = districts;
+        efficiency_gap(districts);
+        outputf.close();
     }
+    std::tuple<int, int> breakdown_district(vector<string>& district){
+        int dems = count(district.begin(), district.end(), "D");
+        int repubs = count(district.begin(), district.end(), "R");
+        return std::make_tuple(dems,repubs);
+    }
+    
+    void efficiency_gap(vector<vector<string> >& districts){
+        vector<int> d_votes;
+        vector<int> r_votes;
+        vector<int> d_wasted_votes;
+        vector<int> r_wasted_votes;
+        vector<int> net_wasted_votes;
+        for(int i = 0; i < districts.size(); i++){
+            d_votes.push_back(count(districts[i].begin(), districts[i].end(), "D"));
+            r_votes.push_back(count(districts[i].begin(), districts[i].end(), "R"));
+            int total = d_votes[i] + r_votes[i];
+            int votes_to_win = (total / 2) + 1;
+            d_wasted_votes.push_back(d_votes[i] > r_votes[i] ? d_votes[i] - votes_to_win : d_votes[i]);
+            r_wasted_votes.push_back(r_votes[i] > d_votes[i] ? r_votes[i] - votes_to_win : r_votes[i]);
+            // Positive = democrats did better to convert seats
+            net_wasted_votes.push_back(r_wasted_votes[i] - d_wasted_votes[i]);
+        }
+        vector<int> totals;
+        totals.push_back(std::accumulate(d_votes.begin(), d_votes.end(), 0));
+        totals.push_back(std::accumulate(r_votes.begin(), r_votes.end(), 0));
+        totals.push_back(std::accumulate(d_wasted_votes.begin(), d_wasted_votes.end(), 0));
+        totals.push_back(std::accumulate(r_wasted_votes.begin(), r_wasted_votes.end(), 0));
+        totals.push_back(std::accumulate(net_wasted_votes.begin(), net_wasted_votes.end(), 0));
+        double efficiency = (double)totals[totals.size() - 1] / population;
+        efficiency *= 100;
+        int first_spacing = std::to_string(*(max_element(d_votes.begin(), d_votes.end()))).length();
+        int second_spacing =  std::to_string(*(max_element(r_votes.begin(), r_votes.end()))).length();
+        int third_spacing =  std::to_string(*(max_element(d_wasted_votes.begin(), d_wasted_votes.end()))).length();
+        int fourth_spacing =  std::to_string(*(max_element(r_wasted_votes.begin(), r_wasted_votes.end()))).length();
+        int fifth_spacing =  std::to_string(*(max_element(net_wasted_votes.begin(), net_wasted_votes.end()))).length();
+        vector<int> the_districts;
+        for(int i = 1; i <= districts.size(); i++){
+            the_districts.push_back(i);
+        }
+        
+        cout << std::string(2, ' ') << "District" << std::string(2, ' ') 
+            << std::string(first_spacing, ' ') << "D Votes" << std::string(first_spacing, ' ')
+            << std::string(second_spacing, ' ') << "R Votes" << std::string(second_spacing, ' ') 
+            << std::string(third_spacing, ' ') << "D Wasted" << std::string(third_spacing, ' ') 
+            << std::string(fourth_spacing, ' ') << "R Wasted" << std::string(fourth_spacing, ' ')
+            << std::string(fifth_spacing, ' ') << "Net Wasted" << std::string(fifth_spacing, ' ') << endl;
+        int line_two_spac = 4 + first_spacing * 2 + second_spacing * 2 + third_spacing + 23;
+        int line_two_spac_two = third_spacing + fourth_spacing + 3;
+        cout << std::string(line_two_spac, ' ') << "Votes" << std::string(line_two_spac_two, ' ') << "Votes" << endl;
+        for(int i = 0; i < districts.size(); i++){
+            cout << std::string((((4 + 8) / 2) - to_string(the_districts[i]).length() / 2), ' ') 
+                << the_districts[i] << std::string((((4 + 8) / 2) - (to_string(the_districts[i]).length()) / 2), ' ')
+                << std::string((((first_spacing * 2 + 7) / 2) - (to_string(d_votes[i]).length()) / 2), ' ') 
+                << d_votes[i] << std::string((((first_spacing * 2 + 7) / 2) - (to_string(d_votes[i]).length()) / 2), ' ')
+                << std::string((((second_spacing * 2 + 7) / 2) - (to_string(r_votes[i]).length()) / 2), ' ') 
+                << r_votes[i] << std::string((((second_spacing * 2 + 7) / 2) - (to_string(r_votes[i]).length()) / 2), ' ')
+                << std::string((((third_spacing * 2 + 8) / 2) - (to_string(d_wasted_votes[i]).length()) / 2), ' ') 
+                << d_wasted_votes[i] << std::string((((third_spacing * 2 + 8) / 2) - (to_string(d_wasted_votes[i]).length()) / 2), ' ')
+                << std::string((((fourth_spacing * 2 + 8) / 2) - (to_string(r_wasted_votes[i]).length()) / 2), ' ') 
+                << r_wasted_votes[i] << std::string((((fourth_spacing * 2 + 8) / 2) - (to_string(r_wasted_votes[i]).length()) / 2), ' ')
+                << std::string((((fifth_spacing * 2 + 10) / 2) - (to_string(net_wasted_votes[i]).length()) / 2), ' ') 
+                << net_wasted_votes[i] << std::string((((fifth_spacing * 2 + 10) / 2) - (to_string(net_wasted_votes[i]).length()) / 2), ' ')
+                << endl;
+        }
+        if(efficiency < 0){
+            cout << "Republicans won " << abs(efficiency) << " % more seats than they would have "
+                << "if they both wasted equal number of votes" << endl;
+        }
+        else if(efficiency == 0){
+            cout << "Neither party won more seats if they both wasted equal number of votes" << endl;
+
+        }
+        else{
+            cout << "Democrats won " << abs(efficiency) << " % more seats than they would have "
+                << "if they both wasted equal number of votes" << endl;
+        }
+        
+
+
+        
+    }
+    
     string get_minority(){
         return minority;
     }
