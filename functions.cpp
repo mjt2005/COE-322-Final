@@ -138,8 +138,6 @@ vector<Voter> combine_like_voters(vector<Voter> &voters) {
 
 State unordered_districting(vector<Voter> voters, int max_district_pop) {
     int number_of_districts = voters.size() / max_district_pop;
-    static auto rng = std::default_random_engine {};
-    shuffle(voters.begin(), voters.end(), rng);
     vector<District> new_districts;
     for (int i = 0; i < number_of_districts; i++) {
         District district = vector<Voter>(voters.end() - max_district_pop, voters.end());
@@ -163,7 +161,7 @@ void write_districts(State s, string name){
                     << s.get_districts()[i].size() << ", "
                     << s.get_districts()[i].getDems() << ", "
                     << s.get_districts()[i].get_Gop() << ", "
-                    << get<0>(s.get_districts()[i].lean()) << get<1>(s.get_districts()[i].lean()) << "," << endl;
+                    << get<0>(s.get_districts()[i].lean()) << get<1>(s.get_districts()[i].lean()) << endl;
     }
     output_file.close();
 
