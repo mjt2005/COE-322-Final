@@ -161,7 +161,7 @@ void write_districts(State s, string name){
                     << s.get_districts()[i].size() << ", "
                     << s.get_districts()[i].getDems() << ", "
                     << s.get_districts()[i].get_Gop() << ", "
-                    << get<0>(s.get_districts()[i].lean()) << get<1>(s.get_districts()[i].lean()) << "," << endl;
+                    << get<0>(s.get_districts()[i].lean()) << get<1>(s.get_districts()[i].lean()) << endl;
     }
     output_file.close();
 

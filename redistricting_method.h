@@ -179,8 +179,7 @@ public:
             auto [num_d, num_r] = breakdown_district(districts[i]);
             
 
-            outputf << i+1 << ", " << districts[i].size() << ", " << num_d <<  ", " << num_r << ", ";
-            outputf << endl;
+            outputf << i+1 << ", " << districts[i].size() << ", " << num_d <<  ", " << num_r << endl;
             if(num_d > num_r){
                 districts_d += 1;
             }
