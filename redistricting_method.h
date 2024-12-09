@@ -128,6 +128,7 @@ public:
             cout << "Error" << endl;
             throw 1; 
         }
+        outputf << "District number, size of district, Number of democrats, Number of republicans" << endl;
 
         vector<int> answer;
         int n = population;
@@ -177,17 +178,9 @@ public:
             cout << "]" << endl;
             outputf << "] " << endl;
             auto [num_d, num_r] = breakdown_district(districts[i]);
-            outputf << "Number of Democrats in district: " << num_d << endl;
-            outputf << "Number of Republicans in district: " << num_r << endl;
-            if(num_d > num_r){
-                outputf << "Democrats won this district by " << num_d - num_r << " votes" << endl;
-            }
-            else if (num_d == num_r){
-                outputf << "This district resulted in a tie" << endl;
-            }
-            else{
-                outputf << "Republicans won this district by " << num_r - num_d << " votes" << endl;
-            }
+            
+
+            outputf << i << ", " << districts[i].size() << ", " << num_d <<  ", " << num_r << ", ";
             outputf << endl;
         }
         outputf.close();
