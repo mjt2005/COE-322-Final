@@ -123,12 +123,14 @@ public:
 
     // Function to reconstruct and print the district boundaries in a good way
     void printDistricts(const vector<vector<int>>& splits) {
+        int districts_d = 0;
+        int districts_r = 0;
         std::ofstream outputf("Redistricted_districts.csv");
         if (!outputf) {
             cout << "Error" << endl;
             throw 1; 
         }
-        outputf << "District number, size of district, Number of democrats, Number of republicans" << endl;
+        outputf << "District , Size, Democrats, Republicans" << endl;
 
         vector<int> answer;
         int n = population;
@@ -170,19 +172,24 @@ public:
         // Print the districts in the requested format
         for (int i = 0; i < districts.size(); i++) {
             cout << "[";
-            outputf << "[";
             for (int j = 0; j < districts[i].size(); j++) {
                 cout << " " << districts[i][j] << " ";
-                outputf << " " << districts[i][j] << " ";
             }
             cout << "]" << endl;
-            outputf << "] " << endl;
             auto [num_d, num_r] = breakdown_district(districts[i]);
             
 
             outputf << i << ", " << districts[i].size() << ", " << num_d <<  ", " << num_r << ", ";
             outputf << endl;
+            if(num_d > num_r){
+                districts_d += 1;
+            }
+            if(num_r > num_d){
+                districts_r += 1;
+            }
         }
+        cout << "Number of districts won by Democrats: " << districts_d << endl;
+        cout << "Number of districts won by Republicans: " << districts_r << endl;
         outputf.close();
     }
     std::tuple<int, int> breakdown_district(vector<string> district){
