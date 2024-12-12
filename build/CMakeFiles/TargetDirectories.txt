@@ -1,7 +1,7 @@
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/main.dir
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/edit_cache.dir
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/rebuild_cache.dir
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/list_install_components.dir
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/install.dir
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/install/local.dir
-/home1/09832/mjt2005/COE-322-Final/build/CMakeFiles/install/strip.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/main.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/edit_cache.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/rebuild_cache.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/list_install_components.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/install.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/install/local.dir
+/home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles/install/strip.dir

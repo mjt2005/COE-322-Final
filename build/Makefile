@@ -57,10 +57,10 @@ RM = /opt/apps/cmake/3.28.1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home1/09832/mjt2005/COE-322-Final
+CMAKE_SOURCE_DIR = /home1/10197/jackyyl/Project/COE-322-Final
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home1/09832/mjt2005/COE-322-Final/build
+CMAKE_BINARY_DIR = /home1/10197/jackyyl/Project/COE-322-Final/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home1/09832/mjt2005/COE-322-Final/build/CMakeFiles /home1/09832/mjt2005/COE-322-Final/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles /home1/10197/jackyyl/Project/COE-322-Final/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home1/09832/mjt2005/COE-322-Final/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home1/10197/jackyyl/Project/COE-322-Final/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -174,29 +174,29 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-functions.o: functions.cpp.o
-.PHONY : functions.o
+functions/functions.o: functions/functions.cpp.o
+.PHONY : functions/functions.o
 
 # target to build an object file
-functions.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/functions.cpp.o
-.PHONY : functions.cpp.o
+functions/functions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/functions/functions.cpp.o
+.PHONY : functions/functions.cpp.o
 
-functions.i: functions.cpp.i
-.PHONY : functions.i
+functions/functions.i: functions/functions.cpp.i
+.PHONY : functions/functions.i
 
 # target to preprocess a source file
-functions.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/functions.cpp.i
-.PHONY : functions.cpp.i
+functions/functions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/functions/functions.cpp.i
+.PHONY : functions/functions.cpp.i
 
-functions.s: functions.cpp.s
-.PHONY : functions.s
+functions/functions.s: functions/functions.cpp.s
+.PHONY : functions/functions.s
 
 # target to generate assembly for a file
-functions.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/functions.cpp.s
-.PHONY : functions.cpp.s
+functions/functions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/functions/functions.cpp.s
+.PHONY : functions/functions.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -235,9 +235,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... main"
-	@echo "... functions.o"
-	@echo "... functions.i"
-	@echo "... functions.s"
+	@echo "... functions/functions.o"
+	@echo "... functions/functions.i"
+	@echo "... functions/functions.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

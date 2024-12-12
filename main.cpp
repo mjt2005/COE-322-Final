@@ -1,7 +1,7 @@
 #include <vector>
 #include <fstream>
-#include "redistricting_method.h"
-#include "functions.h"
+#include "functions/redistricting_method.h"
+#include "functions/functions.h"
 #include <random>
 #include <time.h>
 using std::cout;
